@@ -10,6 +10,11 @@ from sklearn.neighbors import NearestNeighbors
 from numpy.linalg import norm
 import cv2
 
+filename = "logo.jpg"
+img = cv2.imread(filename, 1)
+image = np.array([img])
+st.image(image, channels="BGR", width=100)
+
 feature_list = np.array(pickle.load(open('featurevector.pkl','rb')))
 filenames = pickle.load(open('filenames.pkl','rb'))
 
@@ -21,7 +26,7 @@ model = tensorflow.keras.Sequential([
     GlobalMaxPooling2D()
 ])
 
-st.title('Man & Women Fashion Recommender System')
+st.title('Gap Apparel Image Search')
 
 def save_uploaded_file(uploaded_file):
     try:
@@ -49,6 +54,11 @@ def recommend(features,feature_list):
 
     return indices
 
+import random
+
+
+    
+
 # steps
 # file upload -> save
 uploaded_file = st.file_uploader("Choose an image")
@@ -59,6 +69,9 @@ if uploaded_file is not None:
         display_image = Image.open(uploaded_file)
         resized_img = display_image.resize((200, 200))
         st.image(resized_img)
+
+        st.markdown("Recommendations")
+        
         # feature extract
         features = extract_feature(os.path.join("uploads",uploaded_file.name),model)
         #st.text(features)
@@ -69,13 +82,24 @@ if uploaded_file is not None:
 
         with col1:
             st.image(filenames[indices[0][0]])
+            t="$"+str(random.randint(10, 50))
+            st.caption(t)
+
         with col2:
             st.image(filenames[indices[0][1]])
+            t="$"+str(random.randint(10, 50))
+            st.caption(t)         
         with col3:
             st.image(filenames[indices[0][2]])
+            t="$"+str(random.randint(10, 50))
+            st.caption(t)          
         with col4:
             st.image(filenames[indices[0][3]])
+            t="$"+str(random.randint(10, 50))
+            st.caption(t)          
         with col5:
             st.image(filenames[indices[0][4]])
+            t="$"+str(random.randint(10, 50))
+            st.caption(t)           
     else:
         st.header("Some error occured in file upload")
